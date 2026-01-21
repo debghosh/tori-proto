@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tori - Technology Scales. Humans Heal.</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Sora', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE4CC 50%, #FFDAB3 100%);
+        }
+        
+        .font-cormorant {
+            font-family: 'Cormorant', serif;
+        }
+        
+        /* Liquid Glass Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Liquid Blob Animations */
+        @keyframes blob1 {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            33% { 
+                transform: translate(30px, -50px) scale(1.1) rotate(120deg);
+            }
+            66% { 
+                transform: translate(-20px, 20px) scale(0.9) rotate(240deg);
+            }
+        }
+        
+        @keyframes blob2 {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            33% { 
+                transform: translate(-40px, 30px) scale(1.15) rotate(160deg);
+            }
+            66% { 
+                transform: translate(30px, -20px) scale(0.95) rotate(320deg);
+            }
+        }
+        
+        @keyframes blob3 {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1);
+            }
+            50% { 
+                transform: translate(20px, 20px) scale(1.05);
+            }
+        }
+        
+        .blob-1 {
+            animation: blob1 20s ease-in-out infinite;
+            filter: blur(80px);
+        }
+        
+        .blob-2 {
+            animation: blob2 25s ease-in-out infinite;
+            filter: blur(80px);
+        }
+        
+        .blob-3 {
+            animation: blob3 30s ease-in-out infinite;
+            filter: blur(100px);
+        }
+        
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg);
+            }
+            50% { 
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+        
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Smooth Reveal */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .reveal {
+            animation: fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        
+        /* Shimmer Effect */
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                transparent 100%);
+            background-size: 1000px 100%;
+            animation: shimmer 3s infinite;
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 25%, #FF4E50 50%, #F9D423 75%, #FF6B35 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 8s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* Glow Effect */
+        .glow {
+            box-shadow: 
+                0 0 20px rgba(255, 107, 53, 0.15),
+                0 0 40px rgba(255, 107, 53, 0.1),
+                0 0 60px rgba(255, 107, 53, 0.05);
+        }
+        
+        .glow-strong {
+            box-shadow: 
+                0 0 30px rgba(255, 107, 53, 0.3),
+                0 0 60px rgba(255, 107, 53, 0.2),
+                0 0 90px rgba(255, 107, 53, 0.1);
+        }
+        
+        /* Liquid Shape */
+        .liquid-shape {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        
+        /* Scroll Reveal */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Card Hover */
+        .card-hover {
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 
+                0 30px 60px rgba(255, 107, 53, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Particle Effect */
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(100px, -100vh);
+                opacity: 0;
+            }
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 107, 53, 0.4);
+            border-radius: 50%;
+            animation: particleFloat linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, size = 24, className = "" }) => {
+            return <i data-lucide={name} className={className} style={{ width: size, height: size }}></i>;
+        };
+
+        function ToriWebsite() {
+            const [scrolled, setScrolled] = useState(false);
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+            useEffect(() => {
+                lucide.createIcons();
+                
+                const handleScroll = () => {
+                    setScrolled(window.scrollY > 50);
+                    
+                    // Scroll reveal effect
+                    const reveals = document.querySelectorAll('.scroll-reveal');
+                    reveals.forEach(element => {
+                        const elementTop = element.getBoundingClientRect().top;
+                        const windowHeight = window.innerHeight;
+                        if (elementTop < windowHeight - 100) {
+                            element.classList.add('visible');
+                        }
+                    });
+                };
+                
+                window.addEventListener('scroll', handleScroll);
+                handleScroll();
+                
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+            
+            useEffect(() => {
+                lucide.createIcons();
+            });
+
+            // Generate particles
+            const particles = Array.from({ length: 20 }, (_, i) => ({
+                left: `${Math.random() * 100}%`,
+                delay: `${Math.random() * 10}s`,
+                duration: `${10 + Math.random() * 10}s`
+            }));
+
+            return (
+                <div className="min-h-screen relative">
+                    {/* Animated Blob Background */}
+                    <div className="fixed inset-0 overflow-hidden pointer-events-none">
+                        <div className="blob-1 absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-orange-300 to-rose-300 rounded-full opacity-60" />
+                        <div className="blob-2 absolute bottom-40 right-32 w-[500px] h-[500px] bg-gradient-to-br from-amber-300 to-yellow-300 rounded-full opacity-50" />
+                        <div className="blob-3 absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-rose-300 to-pink-300 rounded-full opacity-40" />
+                    </div>
+
+                    {/* Floating Particles */}
+                    <div className="fixed inset-0 overflow-hidden pointer-events-none">
+                        {particles.map((particle, i) => (
+                            <div
+                                key={i}
+                                className="particle"
+                                style={{
+                                    left: particle.left,
+                                    animationDelay: particle.delay,
+                                    animationDuration: particle.duration
+                                }}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Navigation - Liquid Glass */}
+                    <nav className={`fixed w-full top-0 z-50 transition-all duration-500 ${
+                        scrolled ? 'glass shadow-lg' : ''
+                    }`}>
+                        <div className="max-w-7xl mx-auto px-6 py-5">
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center space-x-3">
+                                    <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-rose-400 rounded-2xl flex items-center justify-center shadow-lg glow float">
+                                        <span className="text-white font-bold text-2xl font-cormorant italic">T</span>
+                                    </div>
+                                    <div>
+                                        <h1 className="text-3xl font-bold tracking-tight text-orange-900 font-cormorant">Tori</h1>
+                                        <p className="text-xs text-orange-700 -mt-0.5">Shelter · Grow · Scale</p>
+                                    </div>
+                                </div>
+                                
+                                <div className="hidden md:flex items-center space-x-8 text-sm font-medium">
+                                    <a href="#mission" className="text-orange-800 hover:text-orange-600 transition-colors">Mission</a>
+                                    <a href="#programs" className="text-orange-800 hover:text-orange-600 transition-colors">Programs</a>
+                                    <a href="#impact" className="text-orange-800 hover:text-orange-600 transition-colors">Impact</a>
+                                    <a href="#contact" className="glass-strong px-8 py-3 rounded-full text-orange-900 font-semibold hover:bg-white/60 transition-all glow">
+                                        Get Involved
+                                    </a>
+                                </div>
+
+                                <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden text-orange-900">
+                                    <Icon name={isMenuOpen ? "x" : "menu"} size={28} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {isMenuOpen && (
+                            <div className="md:hidden glass-strong border-t border-white/30">
+                                <div className="px-6 py-6 space-y-4">
+                                    <a href="#mission" className="block text-orange-800 hover:text-orange-600 transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Mission</a>
+                                    <a href="#programs" className="block text-orange-800 hover:text-orange-600 transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Programs</a>
+                                    <a href="#impact" className="block text-orange-800 hover:text-orange-600 transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Impact</a>
+                                    <a href="#contact" className="block glass-strong px-8 py-3 rounded-full text-orange-900 font-semibold text-center" onClick={() => setIsMenuOpen(false)}>
+                                        Get Involved
+                                    </a>
+                                </div>
+                            </div>
+                        )}
+                    </nav>
+
+                    {/* Hero Section */}
+                    <section className="relative min-h-screen flex items-start justify-center pt-32 md:pt-40">
+                        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-4 pb-16 text-center">
+                            {/* Badge */}
+                            <div className="reveal inline-block mb-6" style={{ animationDelay: '0.1s' }}>
+                                <div className="glass inline-flex items-center gap-3 px-6 py-3 rounded-full glow">
+                                    <div className="w-3 h-3 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full animate-pulse" />
+                                    <span className="text-orange-900 font-semibold text-sm tracking-wide">WORLD'S FIRST TECH-LED NGO</span>
+                                </div>
+                            </div>
+
+                            {/* Main Headline */}
+                            <h1 className="reveal font-cormorant text-6xl md:text-8xl font-bold leading-[0.95] mb-5 text-orange-950" style={{ animationDelay: '0.2s' }}>
+                                Technology Scales.<br/>
+                                <span className="gradient-text">Humans Heal.</span>
+                            </h1>
+
+                            {/* Subheadline */}
+                            <p className="reveal text-2xl md:text-3xl text-orange-800 max-w-4xl mx-auto mb-6 leading-relaxed font-light" style={{ animationDelay: '0.3s' }}>
+                                Sheltering the vulnerable. Growing resilience.
+                            </p>
+                            
+                            <p className="reveal text-xl md:text-2xl text-orange-700 max-w-3xl mx-auto mb-10 font-semibold" style={{ animationDelay: '0.35s' }}>
+                                90% AI. 100% Human Empathy.
+                            </p>
+
+                            {/* CTA Buttons */}
+                            <div className="reveal flex flex-col sm:flex-row gap-5 justify-center mb-20" style={{ animationDelay: '0.4s' }}>
+                                <a href="#programs" className="group glass-strong px-10 py-5 rounded-full font-semibold text-lg text-orange-900 hover:bg-white/70 transition-all inline-flex items-center justify-center glow-strong">
+                                    See Our Impact
+                                    <Icon name="arrow-right" size={20} className="ml-2 group-hover:translate-x-2 transition-transform" />
+                                </a>
+                                <a href="#ngo-next" className="glass px-10 py-5 rounded-full font-semibold text-lg text-orange-800 hover:bg-white/40 transition-all">
+                                    Discover NGO.next
+                                </a>
+                            </div>
+
+                            {/* Live Stats */}
+                            <div className="reveal grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto" style={{ animationDelay: '0.5s' }}>
+                                {[
+                                    { num: "90%", label: "AI Agents" },
+                                    { num: "100%", label: "Human Touch" },
+                                    { num: "24/7", label: "Crisis Support" },
+                                    { num: "∞", label: "Scale" }
+                                ].map((stat, i) => (
+                                    <div key={i} className="glass p-6 rounded-3xl text-center card-hover">
+                                        <div className="text-5xl md:text-6xl font-bold gradient-text mb-2 font-cormorant">{stat.num}</div>
+                                        <div className="text-sm text-orange-700 font-medium">{stat.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Scroll Indicator */}
+                        <a href="#mission" className="absolute bottom-12 left-1/2 -translate-x-1/2">
+                            <div className="flex flex-col items-center gap-2 float">
+                                <Icon name="chevron-down" size={32} className="text-orange-600 animate-bounce" />
+                            </div>
+                        </a>
+                    </section>
+
+                    {/* Mission Section */}
+                    <section id="mission" className="py-32 relative scroll-reveal">
+                        <div className="max-w-7xl mx-auto px-6">
+                            <div className="grid md:grid-cols-2 gap-20 items-center">
+                                {/* Left - Visual Element */}
+                                <div className="relative">
+                                    <div className="glass-strong rounded-[3rem] p-12 aspect-square flex items-center justify-center glow-strong float">
+                                        <div className="space-y-6 w-full">
+                                            <div className="glass p-8 rounded-3xl">
+                                                <div className="flex items-center gap-4 mb-4">
+                                                    <Icon name="cpu" size={40} className="text-orange-600" />
+                                                    <div className="flex-1">
+                                                        <div className="h-3 bg-gradient-to-r from-orange-200 to-orange-400 rounded-full overflow-hidden">
+                                                            <div className="h-full bg-gradient-to-r from-orange-400 to-rose-500 rounded-full animate-pulse" style={{width: '90%'}} />
+                                                        </div>
+                                                    </div>
+                                                    <span className="text-sm font-bold text-orange-900">90%</span>
+                                                </div>
+                                                <p className="text-sm text-orange-800 font-medium">AI-powered operations</p>
+                                            </div>
+
+                                            <div className="glass p-8 rounded-3xl">
+                                                <div className="flex items-center gap-4 mb-4">
+                                                    <Icon name="heart" size={40} className="text-rose-600" />
+                                                    <div className="flex-1">
+                                                        <div className="h-3 bg-gradient-to-r from-rose-200 to-rose-400 rounded-full overflow-hidden">
+                                                            <div className="h-full bg-gradient-to-r from-rose-400 to-pink-500 rounded-full" style={{width: '100%'}} />
+                                                        </div>
+                                                    </div>
+                                                    <span className="text-sm font-bold text-orange-900">100%</span>
+                                                </div>
+                                                <p className="text-sm text-orange-800 font-medium">Human empathy</p>
+                                            </div>
+
+                                            <div className="glass-strong p-6 rounded-3xl text-center">
+                                                <p className="text-2xl font-bold text-orange-950 font-cormorant italic">
+                                                    "Technology scales.<br/>Humans heal."
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right - Content */}
+                                <div className="space-y-8">
+                                    <span className="text-orange-600 font-semibold tracking-wide uppercase text-sm">Our Mission</span>
+                                    <h2 className="font-cormorant text-6xl md:text-7xl font-bold leading-tight text-orange-950">
+                                        Shelter for the
+                                        <span className="gradient-text block">Vulnerable</span>
+                                    </h2>
+                                    <p className="text-xl text-orange-800 leading-relaxed">
+                                        We exist to shelter and grow any demography, concept, heritage, or language facing vulnerability. From known crises to unadmitted narratives, we provide safe spaces for growth and transformation.
+                                    </p>
+                                    <p className="text-lg text-orange-700 leading-relaxed">
+                                        Our approach is revolutionary: cutting-edge AI to scale operations, while preserving the irreplaceable human touch at every critical moment.
+                                    </p>
+                                    <div className="flex gap-6 pt-4">
+                                        <div className="flex-1 glass-strong p-6 rounded-3xl text-center">
+                                            <div className="text-4xl font-bold text-orange-600 mb-2 font-cormorant">3x</div>
+                                            <p className="text-sm text-orange-700">Men's suicide rate</p>
+                                        </div>
+                                        <div className="flex-1 glass-strong p-6 rounded-3xl text-center">
+                                            <div className="text-4xl font-bold text-rose-600 mb-2 font-cormorant">70%</div>
+                                            <p className="text-sm text-orange-700">Women facing abuse</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Programs Section */}
+                    <section id="programs" className="py-32 scroll-reveal">
+                        <div className="max-w-7xl mx-auto px-6">
+                            <div className="text-center mb-20">
+                                <span className="text-orange-600 font-semibold tracking-wide uppercase text-sm">Our Programs</span>
+                                <h2 className="font-cormorant text-6xl md:text-7xl font-bold mt-4 mb-6 text-orange-950">
+                                    Four Pillars of Amazing
+                                </h2>
+                                <p className="text-xl text-orange-700 max-w-3xl mx-auto">
+                                    Each program combines AI-powered scale with human-centered care
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 gap-8">
+                                {/* Safe Space */}
+                                <div className="glass-strong rounded-[2.5rem] p-10 card-hover glow">
+                                    <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-6 shadow-lg">
+                                        <Icon name="shield" size={36} className="text-white" />
+                                    </div>
+                                    <h3 className="text-4xl font-bold mb-3 text-orange-950 font-cormorant">Safe Space</h3>
+                                    <p className="text-orange-600 font-semibold mb-5 text-lg">Men's Mental Health</p>
+                                    <p className="text-orange-800 leading-relaxed mb-6 text-lg">
+                                        Breaking the silence. Men are 3x more likely to commit suicide. We provide 24/7 AI-powered crisis support with human empathy at critical moments.
+                                    </p>
+                                    <div className="flex items-center justify-between pt-6 border-t border-orange-200">
+                                        <div>
+                                            <div className="text-4xl font-bold gradient-text font-cormorant">24/7</div>
+                                            <div className="text-sm text-orange-700">Crisis Support</div>
+                                        </div>
+                                        <Icon name="arrow-right" size={28} className="text-orange-600" />
+                                    </div>
+                                </div>
+
+                                {/* Sekor */}
+                                <div className="glass-strong rounded-[2.5rem] p-10 card-hover glow">
+                                    <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mb-6 shadow-lg">
+                                        <Icon name="globe" size={36} className="text-white" />
+                                    </div>
+                                    <h3 className="text-4xl font-bold mb-3 text-orange-950 font-cormorant">Sekor</h3>
+                                    <p className="text-emerald-600 font-semibold mb-5 text-lg">The Root</p>
+                                    <p className="text-orange-800 leading-relaxed mb-6 text-lg">
+                                        Preserving Bengal's heritage, language, and identity. Using AI to archive oral histories and connect youth with their cultural roots.
+                                    </p>
+                                    <div className="flex items-center justify-between pt-6 border-t border-orange-200">
+                                        <div>
+                                            <div className="text-4xl font-bold gradient-text font-cormorant">10K+</div>
+                                            <div className="text-sm text-orange-700">Hours Archived</div>
+                                        </div>
+                                        <Icon name="arrow-right" size={28} className="text-emerald-600" />
+                                    </div>
+                                </div>
+
+                                {/* Protection */}
+                                <div className="glass-strong rounded-[2.5rem] p-10 card-hover glow">
+                                    <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center mb-6 shadow-lg">
+                                        <Icon name="heart" size={36} className="text-white" />
+                                    </div>
+                                    <h3 className="text-4xl font-bold mb-3 text-orange-950 font-cormorant">Protection</h3>
+                                    <p className="text-rose-600 font-semibold mb-5 text-lg">Against Marital Abuse</p>
+                                    <p className="text-orange-800 leading-relaxed mb-6 text-lg">
+                                        Women remain overwhelmingly the victims. AI-powered safety planning with immediate human intervention for crisis situations.
+                                    </p>
+                                    <div className="flex items-center justify-between pt-6 border-t border-orange-200">
+                                        <div>
+                                            <div className="text-4xl font-bold gradient-text font-cormorant">100%</div>
+                                            <div className="text-sm text-orange-700">Same-Day Response</div>
+                                        </div>
+                                        <Icon name="arrow-right" size={28} className="text-rose-600" />
+                                    </div>
+                                </div>
+
+                                {/* Education */}
+                                <div className="glass-strong rounded-[2.5rem] p-10 card-hover glow">
+                                    <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center mb-6 shadow-lg">
+                                        <Icon name="users" size={36} className="text-white" />
+                                    </div>
+                                    <h3 className="text-4xl font-bold mb-3 text-orange-950 font-cormorant">Education</h3>
+                                    <p className="text-indigo-600 font-semibold mb-5 text-lg">For Girl Children</p>
+                                    <p className="text-orange-800 leading-relaxed mb-6 text-lg">
+                                        The bedrock of any generation. AI tutoring systems with human mentors preparing girls for tech-led futures.
+                                    </p>
+                                    <div className="flex items-center justify-between pt-6 border-t border-orange-200">
+                                        <div>
+                                            <div className="text-4xl font-bold gradient-text font-cormorant">95%</div>
+                                            <div className="text-sm text-orange-700">Retention Rate</div>
+                                        </div>
+                                        <Icon name="arrow-right" size={28} className="text-indigo-600" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* NGO.next Platform */}
+                    <section id="ngo-next" className="py-32 scroll-reveal">
+                        <div className="max-w-6xl mx-auto px-6 text-center">
+                            <div className="glass-strong rounded-[3rem] p-16 md:p-20 glow-strong">
+                                <div className="inline-block glass px-6 py-3 rounded-full mb-8">
+                                    <span className="text-orange-700 font-semibold text-sm">THE PLATFORM</span>
+                                </div>
+                                
+                                <h2 className="font-cormorant text-7xl md:text-8xl font-bold mb-6 text-orange-950">
+                                    NGO<span className="gradient-text">.next</span>
+                                </h2>
+                                
+                                <p className="text-2xl md:text-3xl text-orange-800 max-w-3xl mx-auto mb-16 leading-relaxed">
+                                    The world's first fully transparent NGO platform.
+                                    <span className="block text-orange-600 font-semibold mt-2">Blockchain-backed. AI-powered. Trust rebuilt.</span>
+                                </p>
+
+                                <div className="grid md:grid-cols-3 gap-6 mb-16">
+                                    <div className="glass p-10 rounded-3xl text-center card-hover">
+                                        <div className="text-6xl mb-6">🔍</div>
+                                        <h3 className="text-2xl font-bold mb-4 text-orange-950">For Donors</h3>
+                                        <p className="text-orange-700 leading-relaxed">Track every rupee. Real-time impact. Blockchain verified.</p>
+                                    </div>
+                                    <div className="glass p-10 rounded-3xl text-center card-hover">
+                                        <div className="text-6xl mb-6">🤝</div>
+                                        <h3 className="text-2xl font-bold mb-4 text-orange-950">For NGOs</h3>
+                                        <p className="text-orange-700 leading-relaxed">Free infrastructure. Automated reporting. Focus on impact.</p>
+                                    </div>
+                                    <div className="glass p-10 rounded-3xl text-center card-hover">
+                                        <div className="text-6xl mb-6">💪</div>
+                                        <h3 className="text-2xl font-bold mb-4 text-orange-950">For Beneficiaries</h3>
+                                        <p className="text-orange-700 leading-relaxed">Dignity. Agency. Your voice matters.</p>
+                                    </div>
+                                </div>
+
+                                <a href="#contact" className="inline-block glass-strong px-12 py-6 rounded-full font-bold text-xl text-orange-900 hover:bg-white/70 transition-all glow-strong">
+                                    Request Platform Access
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Impact Stats */}
+                    <section id="impact" className="py-32 scroll-reveal">
+                        <div className="max-w-6xl mx-auto px-6">
+                            <div className="text-center mb-20">
+                                <span className="text-orange-600 font-semibold tracking-wide uppercase text-sm">Our Impact</span>
+                                <h2 className="font-cormorant text-6xl md:text-7xl font-bold mt-4 mb-6 text-orange-950">
+                                    Measuring What Matters
+                                </h2>
+                                <p className="text-xl text-orange-700 max-w-3xl mx-auto">
+                                    Transparent metrics. Real outcomes. Verified results.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-4 gap-6 mb-20">
+                                {[
+                                    { num: "50K+", label: "Lives Touched" },
+                                    { num: "24/7", label: "Crisis Support" },
+                                    { num: "90%", label: "Funds to Impact" },
+                                    { num: "100%", label: "Transparency" }
+                                ].map((stat, i) => (
+                                    <div key={i} className="glass-strong p-10 rounded-3xl text-center card-hover glow">
+                                        <div className="text-6xl font-bold gradient-text mb-3 font-cormorant">{stat.num}</div>
+                                        <p className="text-orange-700 font-medium">{stat.label}</p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="glass-strong rounded-[3rem] p-12 md:p-16 text-center glow-strong">
+                                <h3 className="font-cormorant text-4xl md:text-5xl font-bold mb-6 text-orange-950">
+                                    The Future of Charity
+                                </h3>
+                                <p className="text-xl text-orange-800 mb-10 max-w-3xl mx-auto leading-relaxed">
+                                    Within 3 years, we'll operate with 90% AI agents and scale to 500,000+ direct beneficiaries. Zero marginal cost. Infinite compassion.
+                                </p>
+                                <div className="flex flex-col sm:flex-row gap-5 justify-center">
+                                    <a href="#contact" className="glass-strong px-10 py-5 rounded-full font-semibold text-lg text-orange-900 hover:bg-white/70 transition-all glow">
+                                        Support Our Mission
+                                    </a>
+                                    <a href="#programs" className="glass px-10 py-5 rounded-full font-semibold text-lg text-orange-800 hover:bg-white/40 transition-all">
+                                        Learn More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Contact Section */}
+                    <section id="contact" className="py-32 scroll-reveal">
+                        <div className="max-w-5xl mx-auto px-6">
+                            <div className="glass-strong rounded-[3rem] p-12 md:p-16 text-center glow-strong">
+                                <h2 className="font-cormorant text-6xl md:text-7xl font-bold mb-8 text-orange-950">
+                                    Join the Movement
+                                </h2>
+                                <p className="text-2xl text-orange-800 mb-16 max-w-2xl mx-auto">
+                                    Whether you're a donor, partner NGO, volunteer, or beneficiary — there's a place for you at Tori.
+                                </p>
+
+                                <div className="grid md:grid-cols-3 gap-6 mb-16">
+                                    <div className="glass p-8 rounded-3xl card-hover">
+                                        <h3 className="text-2xl font-bold mb-3 text-orange-950">Donate</h3>
+                                        <p className="text-orange-700 text-sm mb-6">Fund transparency and scale</p>
+                                        <a href="mailto:donate@tori.ngo" className="text-orange-600 hover:text-orange-500 transition-colors font-semibold">
+                                            donate@tori.ngo
+                                        </a>
+                                    </div>
+                                    <div className="glass p-8 rounded-3xl card-hover">
+                                        <h3 className="text-2xl font-bold mb-3 text-orange-950">Partner</h3>
+                                        <p className="text-orange-700 text-sm mb-6">Transform your NGO</p>
+                                        <a href="mailto:partners@tori.ngo" className="text-orange-600 hover:text-orange-500 transition-colors font-semibold">
+                                            partners@tori.ngo
+                                        </a>
+                                    </div>
+                                    <div className="glass p-8 rounded-3xl card-hover">
+                                        <h3 className="text-2xl font-bold mb-3 text-orange-950">Connect</h3>
+                                        <p className="text-orange-700 text-sm mb-6">Get in touch</p>
+                                        <a href="mailto:hello@tori.ngo" className="text-orange-600 hover:text-orange-500 transition-colors font-semibold">
+                                            hello@tori.ngo
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div className="border-t border-orange-200 pt-12">
+                                    <div className="flex items-center justify-center space-x-3 mb-6">
+                                        <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-rose-400 rounded-2xl flex items-center justify-center shadow-lg glow">
+                                            <span className="text-white font-bold text-xl font-cormorant italic">T</span>
+                                        </div>
+                                        <span className="text-4xl font-bold text-orange-950 font-cormorant">Tori</span>
+                                    </div>
+                                    <p className="text-orange-700 mb-4 text-lg">
+                                        Sheltering vulnerability. Growing resilience. Scaling compassion.
+                                    </p>
+                                    <p className="text-orange-600 text-sm">
+                                        © 2026 Tori NGO. Built with AI. Delivered with empathy.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<ToriWebsite />);
+    </script>
+</body>
+</html>
